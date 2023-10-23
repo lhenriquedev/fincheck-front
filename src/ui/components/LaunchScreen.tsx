@@ -17,7 +17,7 @@ export const LaunchScreen = ({ isLoading }: LaunchScreenProps) => {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-teal-900">
+      <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-teal-900">
         <div className="flex flex-col items-center gap-4">
           <Logo className="h-10 text-white" />
           <Spinner className="text-teal-900 fill-white" />
