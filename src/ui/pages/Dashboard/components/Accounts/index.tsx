@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { AccountCard } from "./AccountCard";
 import { AccountsSliderNavigation } from "./SliderNavigation";
 import { EyeIcon } from "../../../../components/icons/EyeIcon";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Spinner } from "../../../../components/Spinner";
 import { cn } from "../../../../../app/utils/cn";
 import { formatCurrency } from "../../../../../app/utils/formatCurrency";
@@ -18,6 +19,7 @@ export function Accounts() {
     areValuesVisible,
     toggleValuesVisibility,
     isLoading,
+    accounts,
   } = useAccountsController();
 
   return (
@@ -53,7 +55,26 @@ export function Accounts() {
           </div>
 
           <div className="flex flex-col justify-end flex-1 mt-10 md:mt-0">
-            <div>
+            {accounts.length === 0 && (
+              <>
+                <div className="mb-4" slot="container-start">
+                  <strong className="text-white tracking-[-1px] text-lg">
+                    Minhas contas
+                  </strong>
+                </div>
+
+                <button className="flex flex-col items-center justify-center w-full gap-4 mt-4 text-white border-2 border-teal-600 border-dashed h-52 rounded-2xl">
+                  <div className="flex items-center justify-center border-2 border-white border-dashed rounded-full w-11 h-11">
+                    <PlusIcon className="w-6 h-6" />
+                  </div>
+                  <span className="font-medium tracking-[-0.5px] block text-center w-32">
+                    Cadastre uma nova conta
+                  </span>
+                </button>
+              </>
+            )}
+
+            {accounts.length > 0 && (
               <Swiper
                 spaceBetween={16}
                 slidesPerView={windowWidth >= 500 ? 2.1 : 1.2}
@@ -105,7 +126,7 @@ export function Accounts() {
                   />
                 </SwiperSlide>
               </Swiper>
-            </div>
+            )}
           </div>
         </>
       )}
