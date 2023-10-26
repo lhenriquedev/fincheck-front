@@ -7,6 +7,7 @@ import { MONTHS } from "../../../../../app/config/constants";
 import { SliderNavigation } from "./SliderNavigation";
 import { SliderOption } from "./SliderOption";
 import { Spinner } from "../../../../components/Spinner";
+import { TransactionTypeDropdown } from "./TransactionTypeDropdown";
 import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon";
 import { cn } from "../../../../../app/utils/cn";
 import emptyStateImage from "../../../../../assets/empty-state.svg";
@@ -31,13 +32,7 @@ export function Transactions() {
         <>
           <header>
             <div className="flex items-center justify-between">
-              <button className="flex items-center gap-2">
-                <TransactionsIcon />
-                <span className="text-sm text-gray-800 tracking-[-0.5px] font-medium">
-                  Transações
-                </span>
-                <ChevronDownIcon className="text-gray-900" />
-              </button>
+              <TransactionTypeDropdown />
 
               <button>
                 <FilterIcon />
@@ -69,7 +64,7 @@ export function Transactions() {
               </div>
             )}
 
-            {(!hasTransactions && !isLoading) && (
+            {!hasTransactions && !isLoading && (
               <div className="flex flex-col items-center justify-center w-full h-full">
                 <img src={emptyStateImage} alt="" />
                 <p className="text-gray-700">
@@ -78,7 +73,7 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransactions && !isLoading) && (
+            {hasTransactions && !isLoading && (
               <>
                 <div className="flex items-center justify-between gap-4 p-4 bg-white rounded-2xl">
                   <div className="flex items-center flex-1 gap-3">

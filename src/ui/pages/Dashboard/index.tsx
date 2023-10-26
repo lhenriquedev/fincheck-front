@@ -1,5 +1,6 @@
 import { Accounts } from "./components/Accounts";
 import { DashboardProvider } from "../../../app/contexts/DashboardContext";
+import { Fab } from "./components/Fab";
 import { Logo } from "../../components/Logo";
 import { Transactions } from "./components/Transactions";
 import { UserMenu } from "../../components/UserMenu";
@@ -21,6 +22,8 @@ export const Dashboard = () => {
             <Transactions />
           </div>
         </main>
+
+        <Fab />
       </div>
     </DashboardProvider>
   );

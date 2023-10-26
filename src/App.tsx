@@ -22,7 +22,7 @@ export const App = () => {
         <Toaster />
       </AuthProvider>
 
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
 };
