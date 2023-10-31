@@ -1,22 +1,28 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { FilterIcon } from "../../../../components/icons/FilterIcon";
+import { FiltersModal } from "./FiltersModal";
 import { MONTHS } from "../../../../../app/config/constants";
 import { SliderNavigation } from "./SliderNavigation";
 import { SliderOption } from "./SliderOption";
 import { Spinner } from "../../../../components/Spinner";
 import { TransactionTypeDropdown } from "./TransactionTypeDropdown";
-import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon";
 import { cn } from "../../../../../app/utils/cn";
 import emptyStateImage from "../../../../../assets/empty-state.svg";
 import { formatCurrency } from "../../../../../app/utils/formatCurrency";
 import { useTransactionsController } from "./useTransactionsController";
 
 export function Transactions() {
-  const { areValuesVisible, isLoading, isInitialLoading, transactions } =
-    useTransactionsController();
+  const {
+    areValuesVisible,
+    isLoading,
+    isInitialLoading,
+    transactions,
+    handleOpenFiltersModal,
+    handleCloseFiltersModal,
+    isFiltersModalOpen,
+  } = useTransactionsController();
 
   const hasTransactions = transactions.length > 0;
 
@@ -30,11 +36,16 @@ export function Transactions() {
 
       {!isInitialLoading && (
         <>
+          <FiltersModal
+            open={isFiltersModalOpen}
+            onClose={handleCloseFiltersModal}
+          />
+
           <header>
             <div className="flex items-center justify-between">
               <TransactionTypeDropdown />
 
-              <button>
+              <button onClick={handleOpenFiltersModal}>
                 <FilterIcon />
               </button>
             </div>
@@ -56,7 +67,6 @@ export function Transactions() {
               </Swiper>
             </div>
           </header>
-
           <div className="flex-1 mt-4 space-y-2 overflow-y-auto">
             {isLoading && (
               <div className="flex flex-col items-center justify-center w-full h-full">
