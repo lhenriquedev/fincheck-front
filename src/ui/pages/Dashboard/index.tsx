@@ -2,6 +2,7 @@ import { Accounts } from "./components/Accounts";
 import { DashboardProvider } from "../../../app/contexts/DashboardContext";
 import { Fab } from "./components/Fab";
 import { Logo } from "../../components/Logo";
+import { NewAccountModal } from "./modals/NewAccountModal";
 import { Transactions } from "./components/Transactions";
 import { UserMenu } from "../../components/UserMenu";
 
@@ -24,6 +25,7 @@ export const Dashboard = () => {
         </main>
 
         <Fab />
+        <NewAccountModal />
       </div>
     </DashboardProvider>
   );
