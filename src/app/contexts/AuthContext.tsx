@@ -1,60 +1,51 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
-import { LaunchScreen } from "../../ui/components/LaunchScreen";
-import { localStorageKeys } from "../config/localStorageKeys";
-import toast from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-import { usersService } from "../services/usersService";
+import { LaunchScreen } from "../../ui/components/LaunchScreen"
+import { localStorageKeys } from "../config/localStorageKeys"
+import toast from "react-hot-toast"
+import { useQuery } from "@tanstack/react-query"
+import { usersService } from "../services/usersService"
 
 interface AuthContextProps {
-  signedIn: boolean;
-  signin(accessToken: string): void;
-  signout(): void;
+  signedIn: boolean
+  signin(accessToken: string): void
+  signout(): void
 }
 
-const AuthContext = createContext({} as AuthContextProps);
+const AuthContext = createContext({} as AuthContextProps)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [signedIn, setSignedIn] = useState<boolean>(() => {
-    const storedAccessToken = localStorage.getItem(
-      localStorageKeys.ACCESS_TOKEN
-    );
+    const storedAccessToken = localStorage.getItem(localStorageKeys.ACCESS_TOKEN)
 
-    return !!storedAccessToken;
-  });
+    return !!storedAccessToken
+  })
 
   const { isError, isSuccess, isFetching } = useQuery({
     queryKey: ["loggedUser"],
     enabled: signedIn,
     queryFn: () => usersService.me(),
     staleTime: Infinity,
-  });
+  })
 
   const signin = useCallback((accessToken: string) => {
-    localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken);
+    localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken)
 
-    setSignedIn(true);
-  }, []);
+    setSignedIn(true)
+  }, [])
 
   const signout = useCallback(() => {
-    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
+    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN)
 
-    setSignedIn(false);
-  }, []);
+    setSignedIn(false)
+  }, [])
 
   useEffect(() => {
     if (isError) {
-      toast.error("Sua sessão expirou!");
-      signout();
+      toast.error("Sua sessão expirou!")
+      signout()
     }
-  }, [isError, signout]);
-
+  }, [isError, signout])
 
   return (
     <AuthContext.Provider
@@ -62,21 +53,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signedIn: isSuccess && signedIn,
         signin,
         signout,
-      }}
-    >
+      }}>
       <LaunchScreen isLoading={isFetching} />
       {!isFetching && children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
 
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth must be used within an AuthProvider")
   }
 
-  return context;
-};
+  return context
+}

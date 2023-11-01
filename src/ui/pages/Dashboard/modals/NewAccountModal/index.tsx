@@ -1,3 +1,4 @@
+import { Button } from "../../../../components/Button"
 import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput"
 import { Input } from "../../../../components/Input"
 import { InputCurrency } from "../../../../components/InputCurrency"
@@ -6,15 +7,13 @@ import { Select } from "../../../../components/Select"
 import { useNewAccountModalController } from "./useNewAccountModalController"
 
 export const NewAccountModal = () => {
-  const { closeNewAccountModal, isNewAccountModalOpen } =
-    useNewAccountModalController()
+  const { closeNewAccountModal, isNewAccountModalOpen } = useNewAccountModalController()
 
   return (
     <Modal
       title='Nova Conta'
       open={isNewAccountModalOpen}
-      onClose={closeNewAccountModal}
-    >
+      onClose={closeNewAccountModal}>
       <form>
         <div>
           <span className='text-gray-600 tracking-[-0.5px] text-xs'>Saldo</span>
@@ -25,7 +24,11 @@ export const NewAccountModal = () => {
         </div>
 
         <div className='flex flex-col gap-4 mt-10'>
-          <Input type='text' name='name' placeholder='Nome da conta' />
+          <Input
+            type='text'
+            name='name'
+            placeholder='Nome da conta'
+          />
           <Select
             placeholder='Tipo'
             options={[
@@ -36,6 +39,12 @@ export const NewAccountModal = () => {
           />
           <ColorsDropdownInput />
         </div>
+
+        <Button
+          type='submit'
+          className='w-full mt-6'>
+          Criar
+        </Button>
       </form>
     </Modal>
   )
