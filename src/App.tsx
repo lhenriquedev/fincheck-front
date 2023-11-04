@@ -19,9 +19,9 @@ export const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router />
-        <Toaster />
       </AuthProvider>
-
+      
+      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );

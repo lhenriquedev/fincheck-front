@@ -1,10 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-import { LaunchScreen } from "../../ui/components/LaunchScreen"
-import { localStorageKeys } from "../config/localStorageKeys"
-import toast from "react-hot-toast"
-import { useQuery } from "@tanstack/react-query"
-import { usersService } from "../services/usersService"
+import { LaunchScreen } from '../../ui/components/LaunchScreen'
+import { localStorageKeys } from '../config/localStorageKeys'
+import toast from 'react-hot-toast'
+import { useQuery } from '@tanstack/react-query'
+import { usersService } from '../services/usersService'
 
 interface AuthContextProps {
   signedIn: boolean
@@ -21,11 +21,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return !!storedAccessToken
   })
 
-  const { isError, isSuccess, isFetching } = useQuery({
-    queryKey: ["loggedUser"],
+  const { isError, isSuccess, isLoading } = useQuery({
+    queryKey: ['loggedUser'],
     enabled: signedIn,
-    queryFn: () => usersService.me(),
     staleTime: Infinity,
+    queryFn: () => usersService.me(),
   })
 
   const signin = useCallback((accessToken: string) => {
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (isError) {
-      toast.error("Sua sessão expirou!")
+      toast.error('Sua sessão expirou!')
       signout()
     }
   }, [isError, signout])
@@ -54,8 +54,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signin,
         signout,
       }}>
-      <LaunchScreen isLoading={isFetching} />
-      {!isFetching && children}
+      <LaunchScreen isLoading={isLoading} />
+      {!isLoading && children}
     </AuthContext.Provider>
   )
 }
@@ -65,7 +65,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext)
 
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider")
+    throw new Error('useAuth must be used within an AuthProvider')
   }
 
   return context

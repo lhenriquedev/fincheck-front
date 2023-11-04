@@ -1,13 +1,15 @@
-import { ChevronDownIcon, CrossCircledIcon } from "@radix-ui/react-icons"
+import { ChevronDownIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 
-import { ColorIcon } from "./icons/ColorIcon"
-import { DropdownMenu } from "./DropdownMenu"
-import { cn } from "../../app/utils/cn"
-import { useState } from "react"
+import { ColorIcon } from './icons/ColorIcon'
+import { DropdownMenu } from './DropdownMenu'
+import { cn } from '../../app/utils/cn'
+import { useState } from 'react'
 
 interface ColorsDropdownInputProps {
   error?: string
   className?: string
+  value?: string
+  onChange?: (value: string) => void
 }
 
 type Color = {
@@ -16,26 +18,37 @@ type Color = {
 }
 
 const colors: Color[] = [
-  { color: "#868E96", bg: "#F8F9FA" },
-  { color: "#FA5252", bg: "#FFF5F5" },
-  { color: "#E64980", bg: "#FFF0F6" },
-  { color: "#BE4BDB", bg: "#F8F0FC" },
-  { color: "#7950F2", bg: "#F3F0FF" },
-  { color: "#4C6EF5", bg: "#EDF2FF" },
-  { color: "#228BE6", bg: "#E7F5FF" },
-  { color: "#15AABF", bg: "#E3FAFC" },
-  { color: "#12B886", bg: "#E6FCF5" },
-  { color: "#40C057", bg: "#EBFBEE" },
-  { color: "#82C91E", bg: "#F4FCE3" },
-  { color: "#FAB005", bg: "#FFF9DB" },
-  { color: "#FD7E14", bg: "#FFF4E6" },
-  { color: "#212529", bg: "#F8F9FA" },
+  { color: '#868E96', bg: '#F8F9FA' },
+  { color: '#FA5252', bg: '#FFF5F5' },
+  { color: '#E64980', bg: '#FFF0F6' },
+  { color: '#BE4BDB', bg: '#F8F0FC' },
+  { color: '#7950F2', bg: '#F3F0FF' },
+  { color: '#4C6EF5', bg: '#EDF2FF' },
+  { color: '#228BE6', bg: '#E7F5FF' },
+  { color: '#15AABF', bg: '#E3FAFC' },
+  { color: '#12B886', bg: '#E6FCF5' },
+  { color: '#40C057', bg: '#EBFBEE' },
+  { color: '#82C91E', bg: '#F4FCE3' },
+  { color: '#FAB005', bg: '#FFF9DB' },
+  { color: '#FD7E14', bg: '#FFF4E6' },
+  { color: '#212529', bg: '#F8F9FA' },
 ]
 
-export const ColorsDropdownInput = ({ className, error }: ColorsDropdownInputProps) => {
-  const [selectedColor, setSelectedColor] = useState<null | Color>(null)
+export const ColorsDropdownInput = ({
+  className,
+  error,
+  onChange,
+  value,
+}: ColorsDropdownInputProps) => {
+  const [selectedColor, setSelectedColor] = useState<null | Color>(() => {
+    if (!value) return null
+    return colors.find(c => c.color === value) ?? null
+  })
 
-  const handleSelect = (color: Color) => setSelectedColor(color)
+  const handleSelect = (color: Color) => {
+    setSelectedColor(color)
+    onChange?.(color.color)
+  }
 
   return (
     <div>
@@ -43,8 +56,8 @@ export const ColorsDropdownInput = ({ className, error }: ColorsDropdownInputPro
         <DropdownMenu.Trigger>
           <button
             className={cn(
-              "focus:border-gray-900 relative text-left transition-all h-[52px] outline-none w-full text-gray-700 bg-white rounded-lg border border-gray-500 px-3",
-              error && "!border-red-900",
+              'focus:border-gray-900 relative text-left transition-all h-[52px] outline-none w-full text-gray-700 bg-white rounded-lg border border-gray-500 px-3',
+              error && '!border-red-900',
               className
             )}>
             Cor

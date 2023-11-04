@@ -18,7 +18,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export const useNewAccountModalController = () => {
-  const { isNewAccountModalOpen, closeNewAccountModal } = useDashboard()
+  const { isEditAccountModalOpen, closeEditAccountModal } = useDashboard()
 
   const queryClient = useQueryClient()
 
@@ -45,7 +45,7 @@ export const useNewAccountModalController = () => {
 
       toast.success('Conta foi cadastrada com sucesso.')
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] })
-      closeNewAccountModal()
+      closeEditAccountModal()
       reset()
     } catch (error) {
       toast.error('Erro ao cadastrar a conta')
@@ -53,8 +53,8 @@ export const useNewAccountModalController = () => {
   })
 
   return {
-    isNewAccountModalOpen,
-    closeNewAccountModal,
+    isEditAccountModalOpen,
+    closeEditAccountModal,
     register,
     errors,
     handleSubmit,

@@ -1,9 +1,9 @@
-import * as RdxSelect from "@radix-ui/react-select"
+import * as RdxSelect from '@radix-ui/react-select'
 
-import { ChevronDownIcon, ChevronUpIcon, CrossCircledIcon } from "@radix-ui/react-icons"
+import { ChevronDownIcon, ChevronUpIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 
-import { cn } from "../../app/utils/cn"
-import { useState } from "react"
+import { cn } from '../../app/utils/cn'
+import { useState } from 'react'
 
 interface SelectProps {
   className?: string
@@ -13,13 +13,23 @@ interface SelectProps {
     label: string
     value: string
   }[]
+  value?: string
+  onChange?: (value: string) => void
 }
 
-export const Select = ({ className, error, placeholder, options }: SelectProps) => {
-  const [selectedValue, setSelectedValue] = useState("")
+export const Select = ({
+  className,
+  error,
+  placeholder,
+  options,
+  value,
+  onChange,
+}: SelectProps) => {
+  const [selectedValue, setSelectedValue] = useState(value)
 
   const handleSelected = (value: string) => {
     setSelectedValue(value)
+    onChange?.(value)
   }
 
   return (
@@ -27,16 +37,19 @@ export const Select = ({ className, error, placeholder, options }: SelectProps) 
       <div className='relative'>
         <label
           className={cn(
-            "absolute z-10 text-gray-700 -translate-y-1/2 pointer-events-none top-1/2 left-3",
-            selectedValue && "text-xs left-[13px] top-2 transition-all translate-y-0"
+            'absolute z-10 text-gray-700 -translate-y-1/2 pointer-events-none top-1/2 left-3',
+            selectedValue && 'text-xs left-[13px] top-2 transition-all translate-y-0'
           )}>
           {placeholder}
         </label>
-        <RdxSelect.Root onValueChange={handleSelected}>
+
+        <RdxSelect.Root
+          value={value}
+          onValueChange={handleSelected}>
           <RdxSelect.Trigger
             className={cn(
-              "focus:border-gray-900 pt-4 relative text-left transition-all h-[52px] outline-none w-full text-gray-800 bg-white rounded-lg border border-gray-500 px-3",
-              error && "!border-red-900",
+              'focus:border-gray-900 pt-4 relative text-left transition-all h-[52px] outline-none w-full text-gray-800 bg-white rounded-lg border border-gray-500 px-3',
+              error && '!border-red-900',
               className
             )}>
             <RdxSelect.Value />

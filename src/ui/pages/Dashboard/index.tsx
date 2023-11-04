@@ -1,11 +1,12 @@
-import { Accounts } from "./components/Accounts"
-import { DashboardProvider } from "../../../app/contexts/DashboardContext"
-import { Fab } from "./components/Fab"
-import { Logo } from "../../components/Logo"
-import { NewAccountModal } from "./modals/NewAccountModal"
-import { NewTransactionModal } from "./modals/NewTransactionModal"
-import { Transactions } from "./components/Transactions"
-import { UserMenu } from "../../components/UserMenu"
+import { Accounts } from './components/Accounts'
+import { DashboardProvider } from '../../../app/contexts/DashboardContext'
+import { EditAccountModal } from './modals/EditAccountModal'
+import { Fab } from './components/Fab'
+import { Logo } from '../../components/Logo'
+import { NewAccountModal } from './modals/NewAccountModal'
+import { NewTransactionModal } from './modals/NewTransactionModal'
+import { Transactions } from './components/Transactions'
+import { UserMenu } from '../../components/UserMenu'
 
 export const Dashboard = () => {
   return (
@@ -28,6 +29,7 @@ export const Dashboard = () => {
         <Fab />
         <NewAccountModal />
         <NewTransactionModal />
+        <EditAccountModal />
       </div>
     </DashboardProvider>
   )
