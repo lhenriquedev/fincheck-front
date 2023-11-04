@@ -4,7 +4,7 @@ import { cn } from '../../app/utils/cn'
 
 interface InputCurrencyProps {
   error?: string
-  value?: string
+  value?: string | number
   onChange?: (value: string) => void
 }
 export const InputCurrency = ({ error, onChange, value }: InputCurrencyProps) => {
