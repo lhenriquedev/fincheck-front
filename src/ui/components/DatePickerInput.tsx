@@ -1,17 +1,24 @@
-import { CrossCircledIcon } from "@radix-ui/react-icons"
-import { DatePicker } from "./DatePicker"
-import { Popover } from "./Popover"
-import { cn } from "../../app/utils/cn"
-import { formatDate } from "../../app/utils/formatDate"
-import { useState } from "react"
+import { CrossCircledIcon } from '@radix-ui/react-icons'
+import { DatePicker } from './DatePicker'
+import { Popover } from './Popover'
+import { cn } from '../../app/utils/cn'
+import { formatDate } from '../../app/utils/formatDate'
+import { useState } from 'react'
 
 interface DatePickerInputProps {
   error?: string
   className?: string
+  value?: Date
+  onChange: (date: Date) => void
 }
 
-export const DatePickerInput = ({ className, error }: DatePickerInputProps) => {
-  const [selectedDate, setSelectedDate] = useState(new Date())
+export const DatePickerInput = ({ className, error, value, onChange }: DatePickerInputProps) => {
+  const [selectedDate, setSelectedDate] = useState(value ?? new Date())
+
+  const handleChangeDate = (date: Date) => {
+    setSelectedDate(date)
+    onChange?.(date)
+  }
 
   return (
     <div>
@@ -20,8 +27,8 @@ export const DatePickerInput = ({ className, error }: DatePickerInputProps) => {
           <button
             type='button'
             className={cn(
-              "focus:border-gray-900 relative pt-4 text-left transition-all h-[52px] outline-none w-full text-gray-700 bg-white rounded-lg border border-gray-500 px-3",
-              error && "!border-red-900",
+              'focus:border-gray-900 relative pt-4 text-left transition-all h-[52px] outline-none w-full text-gray-700 bg-white rounded-lg border border-gray-500 px-3',
+              error && '!border-red-900',
               className
             )}>
             <span className='text-xs text-gray-700 absolute left-[13px] top-2 pointer-events-none'>
@@ -35,7 +42,7 @@ export const DatePickerInput = ({ className, error }: DatePickerInputProps) => {
         <Popover.Content>
           <DatePicker
             value={selectedDate}
-            onChange={date => setSelectedDate(date)}
+            onChange={handleChangeDate}
           />
         </Popover.Content>
       </Popover.Root>
