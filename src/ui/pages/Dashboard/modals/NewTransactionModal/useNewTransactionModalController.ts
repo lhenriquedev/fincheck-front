@@ -33,7 +33,7 @@ export const useNewTransactionModalController = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      date: new Date(2022, 10, 20),
+      date: new Date(),
     },
   })
 
