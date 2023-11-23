@@ -88,6 +88,7 @@ export const useEditTransactionModalController = (
       await removeTransaction(transaction!.id)
 
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] })
       toast.success('Transação foi removida com sucesso.')
       onClose()
     } catch (error) {

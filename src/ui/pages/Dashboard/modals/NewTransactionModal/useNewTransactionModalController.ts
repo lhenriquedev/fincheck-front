@@ -60,6 +60,7 @@ export const useNewTransactionModalController = () => {
           : 'Receita cadastrada com sucesso'
       )
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] })
       closeNewTransactionModal()
       reset()
     } catch (error) {
