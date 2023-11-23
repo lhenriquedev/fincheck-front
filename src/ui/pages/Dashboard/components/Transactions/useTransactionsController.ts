@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { Transaction } from '../../../../../app/entities/Transaction'
 import { TransactionsFilters } from '../../../../../app/services/transactionsService/getAll'
 import { useDashboard } from '../../../../../app/contexts/DashboardContext'
 import { useTransactions } from '../../../../../app/hooks/useTransactions'
@@ -9,13 +10,13 @@ export const useTransactionsController = () => {
     month: new Date().getMonth(),
     year: new Date().getFullYear(),
   })
-  const { areValuesVisible } = useDashboard()
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isFiltersModalOpen, setFiltersModalOpen] = useState(false)
+  const [transactionBeingEdited, setTransactionBeingEdited] = useState<null | Transaction>(null)
 
   const { transactions, isTransactionsLoading, isInitialLoading, refetchTransactions } =
     useTransactions(filters)
-
+  const { areValuesVisible } = useDashboard()
 
   function handleChangeFilters<TFilter extends keyof TransactionsFilters>(filter: TFilter) {
     return (value: TransactionsFilters[TFilter]) => {
@@ -23,20 +24,22 @@ export const useTransactionsController = () => {
 
       setFilters(prevState => ({
         ...prevState,
-        [filter]: value
+        [filter]: value,
       }))
     }
   }
 
-  function  handleApplyFilters({
+  function handleApplyFilters({
     bankAccountId,
-    year
-  }: { bankAccountId: string |  undefined; year: number }) {
+    year,
+  }: {
+    bankAccountId: string | undefined
+    year: number
+  }) {
     handleChangeFilters('bankAccountId')(bankAccountId)
     handleChangeFilters('year')(year)
     setFiltersModalOpen(false)
   }
-
 
   useEffect(() => {
     refetchTransactions()
@@ -44,6 +47,15 @@ export const useTransactionsController = () => {
 
   const handleOpenFiltersModal = () => setFiltersModalOpen(true)
   const handleCloseFiltersModal = () => setFiltersModalOpen(false)
+
+  const handleOpenEditTransactionModal = (transaction: Transaction) => {
+    setIsEditModalOpen(true)
+    setTransactionBeingEdited(transaction)
+  }
+  const handleCloseEditTransactionModal = () => {
+    setIsEditModalOpen(false)
+    setTransactionBeingEdited(null)
+  }
 
   return {
     areValuesVisible,
@@ -56,5 +68,9 @@ export const useTransactionsController = () => {
     filters,
     handleChangeFilters,
     handleApplyFilters,
+    transactionBeingEdited,
+    isEditModalOpen,
+    handleOpenEditTransactionModal,
+    handleCloseEditTransactionModal,
   }
 }

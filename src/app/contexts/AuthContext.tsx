@@ -1,12 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 import { LaunchScreen } from '../../ui/components/LaunchScreen'
+import { User } from '../entities/User'
 import { localStorageKeys } from '../config/localStorageKeys'
 import toast from 'react-hot-toast'
 import { useQuery } from '@tanstack/react-query'
 import { usersService } from '../services/usersService'
 
 interface AuthContextProps {
+  user: User | undefined
   signedIn: boolean
   signin(accessToken: string): void
   signout(): void
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return !!storedAccessToken
   })
 
-  const { isError, isSuccess, isLoading } = useQuery({
+  const { isError, isSuccess, isLoading, data } = useQuery({
     queryKey: ['loggedUser'],
     enabled: signedIn,
     staleTime: Infinity,
@@ -53,6 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signedIn: isSuccess && signedIn,
         signin,
         signout,
+        user: data,
       }}>
       <LaunchScreen isLoading={isLoading} />
       {!isLoading && children}
